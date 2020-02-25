@@ -1,38 +1,27 @@
+import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-import smtplib
 
 from loguru import logger
 from tqdm import tqdm
 
 
-
 MESSAGE_TEMPLATE =\
     "Добрый день\n" \
     "\n" \
-    "В короткий промежуток времени истекает срок действия сертификатов подписи кода ESET SHA1 и SHA256.\n" \
-    "Чтобы продолжить получать обновления, пользователям более старых продуктов ESET необходимо выполнить обновление\n" \
-    "до версии, которая поддерживает плавное переключение сертификатов." \
-    "\n"\
-    "https://support.eset.com/ca7304/?locale=en_US&viewlocale=en_US\n"\
-    "\n" \
-    "SC планирует обновить антивирус на вашем компьютере \n" \
-    "Процесс обновления происходит автоматически и в фоновом режиме, от вас нужна только перезагрузка\n " \
-    "компьютера после оповещения антивируса, либо в удобное время. В процессе обновления компьютер может немного тормозить (+- 10 минут)\n"\
-    "\n"\
-    "Когда это будет удобно?\n" \
-    "\n"\
-    "Спасибо\n" \
+    "ТЕКСТ\n" \
     "\n" \
     "Best regards,\n"\
     "EUGENE ROSLYAKOV\n"   # noqa
 
 # setup the parameters of the message
-DEFAULT_CC = "soc@sigma.software"
+DEFAULT_CC = "CC"
 PASSWORD = "PASSWORD"
-USERNAME = "eugene.roslyakov"
-DEFAILT_FROM = "eugene.roslyakov@sigma.software"
-DEFAULT_SUBJECT = "ESET NOD32 Antivirus on your device is outdated"
+USERNAME = "USERNAME"
+SMTP_SERVER = "SMTP_SERVER"
+SERVER_PORT = "PORT"
+DEFAILT_FROM = "FROM"
+DEFAULT_SUBJECT = "SUBJECT"
 USER_NAME_FILE = "./test_users.txt"
 
 
@@ -65,7 +54,7 @@ def send_mail_to_recipient(server, recipient_address, pbar):
 def main():
     recipients_list = read_users(USER_NAME_FILE)
 
-    server = smtplib.SMTP('smtp.i.sigmaukraine.com: 2528')
+    server = smtplib.SMTP('{}: {}'.format(SMTP_SERVER, SERVER_PORT))
     server.starttls()
     server.login(USERNAME, PASSWORD)
 
